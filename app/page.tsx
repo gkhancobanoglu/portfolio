@@ -1,6 +1,6 @@
 "use client";
 
-import { useState } from "react";
+import { useState, useEffect } from "react";
 import {
   FileText,
   Download,
@@ -29,6 +29,16 @@ import { useRouter } from "next/navigation";
 export default function Home() {
   const router = useRouter();
   const [activeTech, setActiveTech] = useState<string | null>(null);
+  const [currentText, setCurrentText] = useState(0);
+
+  const sliderTexts = ["🟢 Available for work", "💼 Open to new opportunities"];
+
+  useEffect(() => {
+    const interval = setInterval(() => {
+      setCurrentText((prev) => (prev + 1) % sliderTexts.length);
+    }, 3000);
+    return () => clearInterval(interval);
+  }, []);
 
   return (
     <>
@@ -48,8 +58,19 @@ export default function Home() {
                     <h2 className="text-base sm:text-lg md:text-xl text-emerald-400 font-medium mt-1">
                       Software Developer
                     </h2>
+
+                    {/* Availability Slider */}
+                    <div className="mt-3 h-6 overflow-hidden">
+                      <div
+                        key={currentText}
+                        className="animate-fadeSlide text-xs sm:text-sm text-slate-300"
+                      >
+                        {sliderTexts[currentText]}
+                      </div>
+                    </div>
                   </div>
 
+                  {/* Mobil Profil Fotoğrafı */}
                   <div className="md:hidden ml-4 flex-shrink-0">
                     <div className="overflow-hidden rounded-full border-2 border-emerald-400/40 shadow-md">
                       <Image
@@ -71,7 +92,7 @@ export default function Home() {
               </div>
             </div>
 
-            {/* Masaüstü için büyük profil görseli */}
+            {/* Masaüstü Fotoğraf */}
             <div className="hidden md:flex rounded-2xl bg-white/5 border border-white/10 p-4 items-center justify-center">
               <div className="overflow-hidden rounded-full border border-white/10 shadow-lg">
                 <Image
@@ -86,7 +107,7 @@ export default function Home() {
             </div>
           </div>
 
-          {/* Orta satır: CV + Tech Stack + Profiller */}
+          {/* Orta satır: CV + Teknolojiler + Profiller */}
           <div className="grid md:grid-cols-3 gap-6 mt-6">
             {/* CV Kartı */}
             <div className="group rounded-2xl bg-white/5 border border-white/10 p-6 sm:p-8 flex flex-col items-center justify-center text-center shadow-lg hover:shadow-emerald-500/20 transition-all duration-300 ease-out relative overflow-hidden">
@@ -221,6 +242,31 @@ export default function Home() {
       <footer className="w-full border-t border-white/10 py-6 text-center text-slate-500 text-xs sm:text-sm">
         © 2025 Gökhan Çobanoğlu. All rights reserved.
       </footer>
+
+      {/* Animasyon tanımı */}
+      <style jsx>{`
+        @keyframes fadeSlide {
+          0% {
+            opacity: 0;
+            transform: translateY(10px);
+          }
+          20% {
+            opacity: 1;
+            transform: translateY(0);
+          }
+          80% {
+            opacity: 1;
+            transform: translateY(0);
+          }
+          100% {
+            opacity: 0;
+            transform: translateY(-10px);
+          }
+        }
+        .animate-fadeSlide {
+          animation: fadeSlide 3s ease-in-out;
+        }
+      `}</style>
     </>
   );
 }
