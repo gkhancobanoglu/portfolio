@@ -31,10 +31,8 @@ export async function POST(req: Request) {
     if (error) throw new Error(error.message);
 
     return NextResponse.json({ ok: true });
-  } catch (err: any) {
-    return NextResponse.json(
-      { ok: false, error: err.message },
-      { status: 500 }
-    );
+  } catch (err) {
+    const error = err instanceof Error ? err.message : "Bilinmeyen hata";
+    return NextResponse.json({ ok: false, error }, { status: 500 });
   }
 }
