@@ -2,6 +2,7 @@
 
 import { Mail, Phone, MapPin, Linkedin, Github } from "lucide-react";
 import { useState } from "react";
+import toast from "react-hot-toast";
 
 export default function ContactPage() {
   const [tooltip, setTooltip] = useState<string | null>(null);
@@ -10,7 +11,6 @@ export default function ContactPage() {
     <section className="max-w-6xl mx-auto px-6 pt-10 pb-20 text-slate-200 grid md:grid-cols-2 gap-12">
       {/* İLETİŞİM BİLGİLERİ */}
       <div className="flex flex-col gap-10">
-        {/* İletişim Bilgileri */}
         <div>
           <h3 className="text-lg font-semibold text-emerald-400 mb-4">
             İletişim Bilgileri
@@ -127,18 +127,29 @@ export default function ContactPage() {
               message: formData.get("message"),
             };
 
-            const res = await fetch("/api/contact", {
-              method: "POST",
-              headers: { "Content-Type": "application/json" },
-              body: JSON.stringify(payload),
-            });
+            const toastId = toast.loading("Mesajınız gönderiliyor...");
 
-            const data = await res.json();
-            if (data.ok) {
-              alert("Mesajınız başarıyla gönderildi 🎉");
-              form.reset();
-            } else {
-              alert(`Hata: ${data.error || "Gönderilemedi"}`);
+            try {
+              const res = await fetch("/api/contact", {
+                method: "POST",
+                headers: { "Content-Type": "application/json" },
+                body: JSON.stringify(payload),
+              });
+
+              const data = await res.json();
+              toast.dismiss(toastId);
+
+              if (data.ok) {
+                toast.success("Mesajınız başarıyla gönderildi 🎉");
+                form.reset();
+              } else {
+                toast.error(
+                  `Gönderilemedi: ${data.error || "Bilinmeyen hata"}`
+                );
+              }
+            } catch (err) {
+              toast.dismiss(toastId);
+              toast.error("Sunucu hatası, lütfen tekrar deneyin ❌");
             }
           }}
           className="flex flex-col gap-4"
