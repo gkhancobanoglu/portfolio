@@ -115,33 +115,60 @@ export default function ContactPage() {
         </h2>
 
         <form
-          onSubmit={(e) => {
+          onSubmit={async (e) => {
             e.preventDefault();
-            alert("Mesajınız başarıyla gönderildi 🎉");
+            const form = e.currentTarget;
+            const formData = new FormData(form);
+
+            const payload = {
+              name: formData.get("name"),
+              email: formData.get("email"),
+              subject: formData.get("subject"),
+              message: formData.get("message"),
+            };
+
+            const res = await fetch("/api/contact", {
+              method: "POST",
+              headers: { "Content-Type": "application/json" },
+              body: JSON.stringify(payload),
+            });
+
+            const data = await res.json();
+            if (data.ok) {
+              alert("Mesajınız başarıyla gönderildi 🎉");
+              form.reset();
+            } else {
+              alert(`Hata: ${data.error || "Gönderilemedi"}`);
+            }
           }}
           className="flex flex-col gap-4"
         >
           <input
             type="text"
+            name="name"
             placeholder="Ad Soyad *"
             required
             className="bg-white/5 border border-white/10 rounded-lg px-4 py-2.5 focus:outline-none focus:border-emerald-400 text-slate-200 placeholder-slate-500"
           />
           <input
             type="email"
+            name="email"
             placeholder="E-posta *"
             required
             className="bg-white/5 border border-white/10 rounded-lg px-4 py-2.5 focus:outline-none focus:border-emerald-400 text-slate-200 placeholder-slate-500"
           />
           <input
             type="text"
+            name="subject"
             placeholder="Konu *"
             required
             className="bg-white/5 border border-white/10 rounded-lg px-4 py-2.5 focus:outline-none focus:border-emerald-400 text-slate-200 placeholder-slate-500"
           />
           <textarea
+            name="message"
             placeholder="Mesajınız..."
             rows={5}
+            required
             className="bg-white/5 border border-white/10 rounded-lg px-4 py-2.5 focus:outline-none focus:border-emerald-400 text-slate-200 placeholder-slate-500"
           ></textarea>
 
