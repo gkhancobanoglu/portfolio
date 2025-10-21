@@ -134,10 +134,22 @@ export default function AboutPage() {
                 tech: "Python • FastAPI • React • Next.js • Docker • PostgreSQL",
               },
               {
+                title: "Software Developer Intern — DMR Danışmanlık",
+                date: "08/2024 – 09/2024",
+                desc: `Microsoft Dynamics AX üzerinde X++ kullanarak iş modülleri geliştirdim ve özelleştirdim; süreç otomasyonunu destekleyerek operasyonel verimliliği artırdım.`,
+                tech: "X++ • Microsoft Dynamics AX ",
+              },
+              {
                 title: "Backend Developer Intern — Haratres Teknoloji",
                 date: "11/2023 – 01/2024",
                 desc: `Java Spring Boot ile e-ticaret platformu geliştirdim. SAP CX üzerinde özel cron job’lar tasarlayarak otomasyon süreçlerini optimize ettim.`,
                 tech: "Java • Spring Boot • SAP CX • PostgreSQL • Docker",
+              },
+              {
+                title: "Software Developer Intern — Kervan Gıda",
+                date: "06/2023 – 08/2023",
+                desc: `SAP MM/SD modüllerinde eğitim aldım ve SAP SD kullanarak kurumsal ihtiyaçlara yönelik özelleştirilmiş çözümler geliştirdim.`,
+                tech: "SAP MM/SD • SAP SD",
               },
             ].map(({ title, date, desc, tech }, i) => (
               <div
