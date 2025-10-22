@@ -14,6 +14,9 @@ const geistMono = Geist_Mono({
 export const metadata: Metadata = {
   title: "Gökhan Çobanoğlu | Portfolio",
   description: "Personal portfolio of Gökhan Çobanoğlu",
+  icons: {
+    icon: "/favicon.png",
+  },
 };
 
 export default function RootLayout({
@@ -23,6 +26,9 @@ export default function RootLayout({
 }) {
   return (
     <html lang="tr">
+      <head>
+        <link rel="icon" href="/favicon.png" />
+      </head>
       <body className="antialiased bg-black text-slate-100">
         <Navbar />
         <main className="pt-20">{children}</main>
